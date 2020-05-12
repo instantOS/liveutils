@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+
+#################################################
+## systray applet to start instantOS installer ##
+#################################################
+
+
 import os
 import gi
 gi.require_version('Gtk', '3.0')
@@ -26,8 +32,7 @@ def menu():
 
 
 def install(_):
-    print("frank")
-    os.system('/usr/bin/calamares_polkit')
+    os.system('/usr/bin/instantosinstaller')
 
 
 if __name__ == "__main__":
