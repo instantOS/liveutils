@@ -17,7 +17,11 @@ sleep 3
 xdotool key super+1
 
 # run actual installer
-curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log &
+{
+    curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log
+    touch /opt/finishinstall
+    sudo cat /root/instantos.log >~/osinstall.log
+} &
 
 # status bar showing install progress
 while :; do
@@ -55,3 +59,17 @@ while :; do
     sleep 1
 
 done
+
+# post install menu
+if [ -e /opt/installsuccess ]; then
+    REBOOTANSWER="$(echo 'yes
+no' | instantmenu -p 'installation finished. reboot?')"
+    if grep -q 'yes' <<<"$REBOOTANSWER"; then
+        reboot
+    fi
+else
+    echo "somethings appears to have gone wrong.
+Refer to ~/osinstall.log for more information. 
+Please open an issue with its
+contents at https://github.com/instantOS/instantOS" | imenu -M
+fi
