@@ -7,17 +7,17 @@ if [ -n "$1" ] && [ "$1" = "-cli" ]; then
     exit
 fi
 
-prep conky && pkill conky
+pgrep conky && pkill conky
 
 # open up a logging window on second tag
-echo "beginning installation" >/root/instantos.log
+echo "beginning installation" | sudo tee /root/instantos.log
 xdotool key super+2
-urxvt -e bash -c "sudo tail -f /root/instantos.log"
+urxvt -e bash -c "sudo tail -f /root/instantos.log" &
 sleep 3
 xdotool key super+1
 
 # run actual installer
-curl -Ls git.io/instantarch | sudo bash &>/root/instantos.log &
+curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log &
 
 # status bar showing install progress
 while :; do
