@@ -32,11 +32,11 @@ I am connected to ethernet' | instantmenu -p 'internet required' -c -l 4)"
 fi
 
 # run actual installer
-{
+if grep -iq arch /et/os-release; then
     curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log
     touch /opt/finishinstall
     sudo cat /root/instantos.log >~/osinstall.log
-} &
+fi &
 
 INSTANTPROGRESS="loading"
 
@@ -64,7 +64,7 @@ while :; do
     fi
     sleep 2
 
-done &
+done
 
 # post install menu
 if [ -e /opt/installsuccess ]; then
