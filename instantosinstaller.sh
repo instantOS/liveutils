@@ -62,7 +62,7 @@ while :; do
     if ! [ "$INSTANTPROGRESS" = "$NEWINSTANTPROGRESS" ] || ! pgrep instantmenu; then
         INSTANTPROGRESS="$NEWINSTANTPROGRESS"
         pkill instantmenu
-        echo "> $INSTANTPROGRESS" | instantmenu -y 34 -l 1 -G
+        echo "> $INSTANTPROGRESS" | instantmenu -b -l 1 -G
     fi
     sleep 2
 
