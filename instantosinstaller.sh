@@ -38,6 +38,8 @@ fi
     sudo cat /root/instantos.log >~/osinstall.log
 } &
 
+INSTANTPROGRESS="loading"
+
 # status bar showing install progress
 while :; do
     if [ -e /opt/finishinstall ]; then
@@ -55,25 +57,14 @@ while :; do
     fi
 
     NEWINSTANTPROGRESS="$(cat /opt/instantprogress)"
-    if ! [ "$INSTANTPROGRESS" = "$NEWINSTANTPROGRESS" ]; then
+    if ! [ "$INSTANTPROGRESS" = "$NEWINSTANTPROGRESS" ] || ! pgrep instantmenu; then
         INSTANTPROGRESS="$NEWINSTANTPROGRESS"
         pkill instantmenu
+        echo "> $INSTANTPROGRESS" | instantmenu -y 34 -l 1 -G
     fi
     sleep 2
 
 done &
-
-while :; do
-    if [ -e /opt/finishinstall ]; then
-        break
-    fi
-
-    if [ -n "$INSTANTPROGRESS" ]; then
-        echo "> $INSTANTPROGRESS" | instantmenu -y 34 -l 1 -G
-    fi
-    sleep 1
-
-done
 
 # post install menu
 if [ -e /opt/installsuccess ]; then
