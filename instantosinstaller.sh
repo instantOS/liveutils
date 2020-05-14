@@ -35,6 +35,8 @@ fi
 if grep -iq arch /etc/os-release; then
     curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log
     sudo touch /opt/finishinstall
+    sleep 2
+    pkill instantmenu
     sudo cat /root/instantos.log >~/osinstall.log
 fi &
 
@@ -49,7 +51,6 @@ while :; do
 
     if ! [ -e /opt/instantprogress ]; then
         sleep 1
-        echo "waiting for progress"
         continue
     fi
 
@@ -70,7 +71,7 @@ done
 # post install menu
 if [ -e /opt/installsuccess ]; then
     REBOOTANSWER="$(echo 'yes
-no' | instantmenu -p 'installation finished. reboot?')"
+no' | instantmenu -c -bw 4 -p 'installation finished. reboot?')"
     if grep -q 'yes' <<<"$REBOOTANSWER"; then
         reboot
     fi
