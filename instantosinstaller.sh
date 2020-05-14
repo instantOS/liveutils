@@ -16,6 +16,21 @@ urxvt -e bash -c "sudo tail -f /root/instantos.log" &
 sleep 3
 xdotool key super+1
 
+# connect user to the internet
+if ! ping -c 1 archlinux.org; then
+    INTERNETCHOICE="$(echo 'connect to wifi
+cancel installation
+I am connected to ethernet' | instantmenu -p 'internet required' -c -l 4)"
+
+    if grep -q 'cancel' <<<"$INTERNETCHOICE"; then
+        exit
+    fi
+
+    if grep -q 'wifi' <<<"$INTERNETCHOICE"; then
+        urxvt -e bash -c "sudo wifi-menu && sleep 5"
+    fi
+fi
+
 # run actual installer
 {
     curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log
