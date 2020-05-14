@@ -34,7 +34,7 @@ fi
 # run actual installer
 if grep -iq arch /etc/os-release; then
     curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log
-    touch /opt/finishinstall
+    sudo touch /opt/finishinstall
     sudo cat /root/instantos.log >~/osinstall.log
 fi &
 
