@@ -12,7 +12,7 @@ pgrep conky && pkill conky
 # open up a logging window on second tag
 echo "beginning installation" | sudo tee /root/instantos.log
 xdotool key super+2
-urxvt -e bash -c "sudo tail -f /root/instantos.log" &
+st -e bash -c "sudo tail -f /root/instantos.log" &
 sleep 3
 xdotool key super+1
 
@@ -27,7 +27,7 @@ I am connected to ethernet' | instantmenu -p 'internet required' -c -l 4)"
     fi
 
     if grep -q 'wifi' <<<"$INTERNETCHOICE"; then
-        urxvt -e bash -c "sudo wifi-menu && sleep 5"
+        st -e bash -c "sudo wifi-menu && sleep 5"
     fi
 fi
 
