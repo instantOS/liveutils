@@ -25,9 +25,15 @@ I am connected to ethernet' | instantmenu -p 'internet required' -c -l 4)"
     if grep -q 'cancel' <<<"$INTERNETCHOICE"; then
         exit
     fi
-
-    if grep -q 'wifi' <<<"$INTERNETCHOICE"; then
-        st -e bash -c "sudo wifi-menu && sleep 5"
+    if grep -q wifi <<<"$INTERNETCHOICE"; then
+        pgrep nm-applet && pkill nm-applet
+        sudo systemctl start NetworkManager
+        sleep 2
+        nm-applet &
+        imenu -m "connect to wifi using the applet in the top right corner"
+        while ! ping -c 1 archlinux.org; do
+            echo "" | instantmenu -w 500 -c -G -p "waiting for an internet connection"
+        done
     fi
 fi
 
