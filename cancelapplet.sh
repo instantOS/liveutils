@@ -5,7 +5,7 @@
 killinstallation() {
     if sudo ps aux | grep '^root' | grep 'ask.sh' || [ "$1" = "force" ]; then
         sudo ps aux | grep '^root' | grep -Ei '(ask\.sh|instantosinstaller|sudo|install)' |
-            grep -o 'root[^a-z0-9]*[0-9][0-9][0-9][0-9]' | grep -o '[0-9]*' >/tmp/installpid
+            grep -o 'root[^a-z0-9]*[0-9]*' | grep -o '[0-9]*' >/tmp/installpid
 
         while read p; do
             echo "$p"
