@@ -11,17 +11,16 @@ killinstallation() {
             echo "$p"
             sudo kill "$p"
         done </tmp/installpid
+        pkill instantmenu
+        sudo pkill instantmenu
     fi
 }
 
 while :; do
 
     echo "cancel installation" | instantmenu -b -y 32 -x 0 -w 400 -G
-    if echo "yes
-no" | instantmenu -c -G -l 2 -w 500 -p "do you want to cancel the installation" |
-        grep -q yes; then
-        killinstallation
-        exit
-    fi
+
+    killinstallation
+    exit
 
 done
