@@ -37,6 +37,9 @@ I am connected to ethernet' | instantmenu -p 'internet required' -c -l 4)"
     fi
 fi
 
+# will be killed when the installer is running
+echo ':b Preparing installation...' | instantmenu -l 3 -q "please wait..." -i -h -1 -w -1 -c -bw 8 &
+
 # run actual installer
 if grep -iq arch /etc/os-release; then
     curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log
