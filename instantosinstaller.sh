@@ -63,17 +63,20 @@ while :; do
         continue
     fi
 
-    if [ -z "$INSTANTPROGRESS" ]; then
-        INSTANTPROGRESS="$(cat /opt/instantprogress)"
-    fi
+    if [ -e /opt/instantprogress ]; then
+        if [ -z "$INSTANTPROGRESS" ]; then
+            INSTANTPROGRESS="$(cat /opt/instantprogress)"
+        fi
 
-    NEWINSTANTPROGRESS="$(cat /opt/instantprogress)"
-    if ! [ "$INSTANTPROGRESS" = "$NEWINSTANTPROGRESS" ] || ! pgrep instantmenu; then
-        INSTANTPROGRESS="$NEWINSTANTPROGRESS"
-        pkill instantmenu
-        echo "> $INSTANTPROGRESS" | instantmenu -b -l 1 -G
+        NEWINSTANTPROGRESS="$(cat /opt/instantprogress)"
+        if ! [ "$INSTANTPROGRESS" = "$NEWINSTANTPROGRESS" ] || ! pgrep instantmenu; then
+            INSTANTPROGRESS="$NEWINSTANTPROGRESS"
+            pkill instantmenu
+            echo "> $INSTANTPROGRESS" | instantmenu -b -l 1 -G
+            MENUPID="$?"
+        fi
+        sleep 2
     fi
-    sleep 2
 
 done
 
