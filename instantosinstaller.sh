@@ -1,6 +1,20 @@
 #!/bin/bash
 # instantOS installer wrapper
 
+# warn user when installing without power source
+if acpi | grep -i discharging; then
+    echo "laptop without power source detected"
+    if echo 'Warning: discharging battery detected
+it is recommended to connect your device to a power
+source or ensure it is fully charged
+before beginning the installation
+Begin installation?' | imenu -C; then
+        echo "ignoring warning"
+    else
+        exit
+    fi
+fi
+
 # allow disabling gui
 if [ -n "$1" ] && [ "$1" = "-cli" ]; then
     curl -Ls git.io/instantarch | sudo bash
