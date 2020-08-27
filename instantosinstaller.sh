@@ -15,6 +15,19 @@ Begin installation?' | imenu -C; then
     fi
 fi
 
+# connect user to the internet
+if ! ping -c 1 archlinux.org; then
+    sudo systemctl start NetworkManager &
+    echo "please connect to the internet before starting the installation
+ethernet is recommended
+for wifi please use the applet in the top right
+and then restart the installation" | imenu -M &
+    pgrep nm-applet && pkill nm-applet
+    sleep 0.5
+    nm-appet &
+    exit 1
+fi
+
 # allow disabling gui
 if [ -n "$1" ] && [ "$1" = "-cli" ]; then
     curl -Ls git.io/instantarch | sudo bash
@@ -29,27 +42,6 @@ xdotool key super+2
 st -e bash -c "sudo tail -f /root/instantos.log" &
 sleep 3
 xdotool key super+1
-
-# connect user to the internet
-if ! ping -c 1 archlinux.org; then
-    INTERNETCHOICE="$(echo 'connect to wifi
-cancel installation
-I am connected to ethernet' | instantmenu -p 'internet required' -c -l 4)"
-
-    if grep -q 'cancel' <<<"$INTERNETCHOICE"; then
-        exit
-    fi
-    if grep -q wifi <<<"$INTERNETCHOICE"; then
-        pgrep nm-applet && pkill nm-applet
-        sudo systemctl start NetworkManager
-        sleep 2
-        nm-applet &
-        imenu -m "connect to wifi using the applet in the top right corner"
-        while ! ping -c 1 archlinux.org; do
-            echo "" | instantmenu -w 500 -c -G -p "waiting for an internet connection"
-        done
-    fi
-fi
 
 # will be killed when the installer is running
 echo ':b Preparing installation...' | instantmenu -l 3 -q "please wait..." -i -h -1 -w -1 -c -bw 8 &
@@ -87,7 +79,7 @@ while :; do
             INSTANTPROGRESS="$NEWINSTANTPROGRESS"
             pkill instantmenu
             echo "> $INSTANTPROGRESS" | instantmenu -b -l 1 -G
-            MENUPID="$?"
+            export MENUPID="$?"
         fi
         sleep 2
     fi
