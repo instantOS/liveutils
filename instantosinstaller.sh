@@ -39,7 +39,12 @@ pgrep conky && pkill conky
 # open up a logging window on second tag
 echo "beginning installation" | sudo tee /root/instantos.log
 xdotool key super+2
-st -e bash -c "sudo tail -f /root/instantos.log" &
+
+while :; do
+    st -e bash -c "sudo tail -f /root/instantos.log"
+    sleep 10
+done &
+
 sleep 3
 xdotool key super+1
 
