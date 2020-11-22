@@ -16,7 +16,7 @@ Begin installation?' | imenu -C; then
 fi
 
 # connect user to the internet
-if ! ping -c 1 archlinux.org; then
+if ! curl -s https://raw.githubusercontent.com/instantOS/instantLOGO/master/ascii.txt; then
     sudo systemctl start NetworkManager &
     echo "please connect to the internet before starting the installation
 ethernet is recommended
