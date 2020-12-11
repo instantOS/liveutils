@@ -18,10 +18,11 @@ fi
 # connect user to the internet
 if ! {
     checkinternet ||
-        curl cht.sh ||
-        curl http://packages.instantos.io ||
+        curl -s cht.sh ||
+        curl -s http://packages.instantos.io &> /dev/null ||
         ping -c 1 archlinux.org ||
-        ping -c github.com
+        ping -c github.com ||
+        curl -s https://raw.githubusercontent.com/instantOS/instantLOGO/master/ascii.txt
 }; then
     sudo systemctl start NetworkManager &
     echo "please connect to the internet before starting the installation
