@@ -16,7 +16,13 @@ Begin installation?' | imenu -C; then
 fi
 
 # connect user to the internet
-if ! ping -c 1 archlinux.org; then
+if ! {
+    checkinternet ||
+        curl cht.sh ||
+        curl http://packages.instantos.io ||
+        ping -c 1 archlinux.org ||
+        ping -c github.com
+}; then
     sudo systemctl start NetworkManager &
     echo "please connect to the internet before starting the installation
 ethernet is recommended
