@@ -27,7 +27,6 @@ killinstallation() {
 while :; do
 
     echo "cancel installation" | instantmenu -b -y 32 -x 0 -w 400 -G
-
     killinstallation
     exit
 

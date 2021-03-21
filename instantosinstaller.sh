@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # instantOS installer wrapper
 
 # warn user when installing without power source
@@ -19,7 +20,7 @@ fi
 if ! {
     checkinternet ||
         curl -s cht.sh ||
-        curl -s http://packages.instantos.io &> /dev/null ||
+        curl -s http://packages.instantos.io &>/dev/null ||
         ping -c 1 archlinux.org ||
         ping -c github.com ||
         curl -s https://raw.githubusercontent.com/instantOS/instantLOGO/master/ascii.txt
