@@ -23,7 +23,7 @@ if ! {
         curl -s http://packages.instantos.io &>/dev/null ||
         ping -c 1 archlinux.org ||
         ping -c github.com ||
-        curl -s https://raw.githubusercontent.com/instantOS/instantLOGO/master/ascii.txt
+        curl -s https://raw.githubusercontent.com/instantOS/instantLOGO/main/ascii.txt
 }; then
     sudo systemctl start NetworkManager &
     echo "please connect to the internet before starting the installation
