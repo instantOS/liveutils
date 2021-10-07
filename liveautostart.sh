@@ -6,6 +6,9 @@ echo "applying live session tweaks"
 # increase tmpfs size depending on ram size
 MEMSIZERAW="$(grep MemTotal /proc/meminfo | grep -o '[0-9]*' | head -1)"
 
+# auto detect time zone
+command -v tzupdate && sudo tzupdate &
+
 if grep -Eq '.{7,}'; then
     GIGSIZE="$(sed 's/......$//g' <<<"$MEMSIZERAW")"
     echo "$GIGSIZE gigs of ram detected"
