@@ -16,6 +16,8 @@ Begin installation?' | imenu -C; then
     fi
 fi
 
+INSTANTARCHSCRIPT="https://raw.githubusercontent.com/instantOS/instantARCH/main/archinstall.sh"
+
 # connect user to the internet
 if ! {
     checkinternet ||
@@ -38,7 +40,7 @@ fi
 
 # allow disabling gui
 if [ -n "$1" ] && [ "$1" = "-cli" ]; then
-    curl -Ls git.io/instantarch | sudo bash
+    curl -s "$INSTANTARCHSCRIPT" | sudo bash
     exit
 fi
 
@@ -61,7 +63,7 @@ echo ':b Preparing installation...' | instantmenu -l 3 -q "please wait..." -i
 
 # run actual installer
 if grep -iq arch /etc/os-release; then
-    curl -Ls git.io/instantarch | sudo bash 2>&1 | sudo tee -a /root/instantos.log
+    curl -Ls "$INSTANTARCHSCRIPT" | sudo bash 2>&1 | sudo tee -a /root/instantos.log
     sudo touch /opt/finishinstall
     sleep 2
     pkill instantmenu
