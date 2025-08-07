@@ -50,8 +50,18 @@ pgrep conky && pkill conky
 echo "beginning installation" | sudo tee /root/instantos.log
 xdotool key super+2
 
+if command -v kitty
+then
+    export TERMINALCMD=kitty
+else if command -v st
+then
+    export TERMINALCMD=st
+else
+    export TERMINALCMD=xterm
+fi
+
 while :; do
-    st -e bash -c "sudo tail -f /root/instantos.log"
+    $TERMINALCMD -e bash -c "sudo tail -f /root/instantos.log"
     sleep 10
 done &
 
